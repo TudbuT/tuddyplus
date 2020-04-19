@@ -164,7 +164,9 @@ api.get["/user"] = r => {
       .split("__TOKEN__")
       .join(r.token)
       .split("__USERNAME__")
-      .join(user.username);
+      .join(user.username)
+      .split("__ADMIN__")
+      .join(user.admin ? "1" : "0")
   } else {
     return api.getFile("signin_error.html");
   }
@@ -322,3 +324,27 @@ api.post["/api/delPost"] = r => {
     }
   }
 };
+
+api.post["/api/addAdmin"] = r => {
+  if(getByToken(r.token)) {
+    let user = getByToken(r.token);
+    
+    if(user.admin) {
+      if(api.db.users[r.user]) {
+        api.db.users[r.user].admin = true;
+      }
+    }
+  }
+}
+
+api.post["/api/rmAdmin"] = r => {
+  if(getByToken(r.token)) {
+    let user = getByToken(r.token);
+    
+    if(user.admin) {
+      if(api.db.users[r.user]) {
+        api.db.users[r.user].admin = false;
+      }
+    }
+  }
+}

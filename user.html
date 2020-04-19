@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width height=device-height" />
     <t style="display: none;" id="trash"></t>
     <t style="display: none;" id="token">__TOKEN__</t>
+    <t style="display: none;" id="admin">__ADMIN__</t>
   </head>
 
   <body id="body">
@@ -58,7 +59,26 @@
           </form>
         </content> </dropdown
       ><br />
-      <a onclick="setCookie('token', '', 90)" href="/">Log out</a>
+      <a onclick="setCookie('token', '', 90)" href="/">Log out</a><br/><br/>
+      <dropdown style="width: 20em; display: none;" id="addAdminDropdown">
+        Add admin
+        <content>
+          <form onsubmit="addAdmin(); return false;">
+            <input id="admin_user" placeholder="Username" required /><br />
+            <input type="submit" />
+          </form>
+        </content> </dropdown
+      ><br />
+      <dropdown style="width: 20em; display: none;" id="rmAdminDropdown">
+        Remove admin
+        <content>
+          <form onsubmit="rmAdmin(); return false;">
+            <input id="rmadmin_user" placeholder="Username" required /><br />
+            <input type="submit" />
+          </form>
+        </content> </dropdown
+      ><br />
+      <br />
       <br />
       <br />
       <br />
@@ -160,6 +180,45 @@
           g(idp + "_user").value = ""
         return false;
       };
+      
+      const addAdmin = () => {
+        try {
+          let user = g("admin_user").value;
+
+          req(
+            "/api/addAdmin" +
+              "?token=" +
+              token +
+              "&user=" +
+              encodeURIComponent(user),
+            "trash"
+          );
+        } catch (e) {}
+        g("admin_user").value = "";
+        return false;
+      };
+      
+      const rmAdmin = () => {
+        try {
+          let user = g("rmadmin_user").value;
+
+          req(
+            "/api/rmAdmin" +
+              "?token=" +
+              token +
+              "&user=" +
+              encodeURIComponent(user),
+            "trash"
+          );
+        } catch (e) {}
+        g("rmadmin_user").value = "";
+        return false;
+      };
+      
+      if(g("admin").innerHTML === "1") {
+        g("addAdminDropdown").style.display = "block";
+        g("rmAdminDropdown").style.display = "block";
+      }
     </script>
   </scripts>
 
