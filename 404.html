@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width height=device-height" />
+  </head>
+
+  <body id="body">
+    <container>
+      <h2>Tuddy<big>+</big></h2>
+    </container>
+    <container>
+      <h1>
+        Oh no!
+      </h1>
+      <h3>This site does not exist! Sorry! <br/><big>🔧</big></h3>
+    </container>
+  </body>
+
+  <scripts>
+    <script>
+      //main functions
+
+      const g = id => {
+        return document.getElementByID(id);
+      };
+
+      const setCookie = (cname, cvalue, exdays) => {
+        var d = new Date();
+        d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      };
+
+      const getCookie = cname => {
+        var name = cname + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == " ") {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      };
+    </script>
+
+    <script>
+      
+    </script>
+  </scripts>
+
+  <styles>
+    <style>
+      dropdown {
+        display: block;
+        text-align: center;
+        z-index: 100;
+        width: 10em;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        cursor: default;
+        margin: inherit;
+      }
+
+      dropdown content {
+        display: none;
+        z-index: 101;
+        margin: inherit;
+      }
+
+      dropdown:hover content {
+        display: block;
+      }
+    </style>
+
+    <style>
+      a {
+        border: 0 solid #000000;
+        background-color: #eedddd;
+        padding: 2px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #554444;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        display: block;
+      }
+
+      big {
+        font-size: 3em;
+      }
+
+      container {
+        margin: auto;
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+        background-color: antiquewhite;
+        display: block;
+        width: fit-content;
+        border: 10px solid #fff;
+        padding: 3px 10px 3px 10px;
+        border-radius: 20px;
+      }
+    </style>
+  </styles>
+</html>
