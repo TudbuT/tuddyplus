@@ -135,18 +135,17 @@ api.get["/signup"] = r => {
     api.db.users[r.username].token = token = genToken(api.db.users[r.username]);
   }
 
-  return "<script>window.location.href = '/user?token=" + token + "'</script>";
+  return redirect("/user?token=" + token);
 };
 
 api.get["/signin"] = r => {
   let token;
-  console.log(JSON.stringify(r));
 
   if (api.db.users[r.username]) {
     if (checkPassword(api.db.users[r.username].password, r.password)) {
       token = api.db.users[r.username].token;
       return (
-        "<script>window.location.href = '/user?token=" + token + "'</script>"
+        redirect("/user?token=" + token)
       );
     } else {
       return api.getFile("signin_error.html");
