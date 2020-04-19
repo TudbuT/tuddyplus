@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "apisy": "^1.2.0",
+    "hashcode.js": "^2.1.1"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "license": "MIT"
+}
