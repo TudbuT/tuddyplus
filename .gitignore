@@ -1,0 +1,6 @@
+.gitignore
+.glitch-assets
+shrinkwrap.yaml
+apisydb.json.db
+.idea/
+node_modules/

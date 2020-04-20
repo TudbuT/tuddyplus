@@ -1,20 +1,15 @@
 const api = require("apisy");
 require("hashcode.js");
 
-//api.db.autosave = 0;
-
 if (!api.db.users) api.db.users = { count: 0 };
 if (!api.db.posts) api.db.posts = [];
-//api.db.users.TudbuT.msgs = []
-//api.db.users.Tuddy.admin = true;
-//api.db.users.count = 1;
 
 const genPassword = string => {
   let result = string;
   let saltAmount = Number(
-    String(Math.random())
-      .split(".")[1]
-      .slice(0, 5)
+      String(Math.random())
+          .split(".")[1]
+          .slice(0, 5)
   );
 
   for (let i = 0; i < saltAmount; i++) {
@@ -35,9 +30,7 @@ const checkPassword = (password, given) => {
     check = check.sha256();
   }
 
-  if (check === password.h) {
-    result = true;
-  } else result = false;
+  result = check === password.h;
 
   return result;
 };
@@ -67,27 +60,27 @@ const genPost = user => {
 const rPost = post => {
   post.toHTML = function() {
     return (
-      "<post><h4>" +
-      this.author +
-      " (" +
-      this.authorID +
-      ")</h4><h5>" +
-      String(this.title)
-        .split("&")
-        .join("&amp;")
-        .split("<")
-        .join("&lt;")
-        .split("\n")
-        .join("<br/>") +
-      "</h5><br/>" +
-      String(this.content)
-        .split("&")
-        .join("&amp;")
-        .split("<")
-        .join("&lt;")
-        .split("\n")
-        .join("<br/>") +
-      "</post><br/><br/>"
+        "<post><h4>" +
+        this.author +
+        " (" +
+        this.authorID +
+        ")</h4><h5>" +
+        String(this.title)
+            .split("&")
+            .join("&amp;")
+            .split("<")
+            .join("&lt;")
+            .split("\n")
+            .join("<br/>") +
+        "</h5><br/>" +
+        String(this.content)
+            .split("&")
+            .join("&amp;")
+            .split("<")
+            .join("&lt;")
+            .split("\n")
+            .join("<br/>") +
+        "</post><br/><br/>"
     );
   };
   return post;
@@ -96,10 +89,10 @@ const rPost = post => {
 const getPost = () => {
   let post;
   return ((post = rPost(
-    api.db.posts[Math.floor(Math.random() * api.db.posts.length)]
+      api.db.posts[Math.floor(Math.random() * api.db.posts.length)]
   )).title !== null
-    ? post
-    : getPost());
+      ? post
+      : getPost());
 };
 
 const redirect = url => {
@@ -151,7 +144,7 @@ api.get["/signin"] = r => {
     if (checkPassword(api.db.users[r.username].password, r.password)) {
       token = api.db.users[r.username].token;
       return (
-        redirect("/user?token=" + token)
+          redirect("/user?token=" + token)
       );
     } else {
       return api.getFile("signin_error.html");
@@ -165,13 +158,13 @@ api.get["/user"] = r => {
   if (getByToken(r.token)) {
     let user = getByToken(r.token);
     return api
-      .getFile("user.html")
-      .split("__TOKEN__")
-      .join(r.token)
-      .split("__USERNAME__")
-      .join(user.username)
-      .split("__ADMIN__")
-      .join(user.admin ? "1" : "0")
+        .getFile("user.html")
+        .split("__TOKEN__")
+        .join(r.token)
+        .split("__USERNAME__")
+        .join(user.username)
+        .split("__ADMIN__")
+        .join(user.admin ? "1" : "0")
   } else {
     return api.getFile("signin_error.html");
   }
@@ -225,7 +218,7 @@ api.post["/api/getContent"] = r => {
       msgs += rPost(msg).toHTML();
     }
     msgs +=
-      "<a onclick=\"req('/api/read?token=' + g('token').innerHTML, 'trash')\">All read</a><br/><br/><br/><br/>";
+        "<a onclick=\"req('/api/read?token=' + g('token').innerHTML, 'trash')\">All read</a><br/><br/><br/><br/>";
 
     //POSTS
     let posts = "<h3>Random posts</h3><br/><br/>";
@@ -235,13 +228,13 @@ api.post["/api/getContent"] = r => {
       if (!gotten.includes(post) && post.title !== null) {
         if (user.admin) {
           posts += `<br/><a onclick="req('/api/delPost?token=' + g('token').innerHTML + '&title=${encodeURIComponent(
-            post.title
+              post.title
           )}&text=${encodeURIComponent(
-            post.content
+              post.content
           )}&authorID=${encodeURIComponent(
-            post.authorID
+              post.authorID
           )}&author=${encodeURIComponent(
-            post.author
+              post.author
           )}', 'trash')">Delete</a><br/>`;
         }
         posts += post.toHTML();
@@ -291,25 +284,25 @@ api.post["/api/delPost"] = r => {
     console.log("Deleting post...");
     for (let post of api.db.posts) {
       console.log(
-        "Author post: " + post.author + "; " + "Author r: " + r.author
+          "Author post: " + post.author + "; " + "Author r: " + r.author
       );
 
       if (post.author === r.author) {
         console.log("Author: OK...");
         console.log(
-          "AuthorID post: " + post.authorID + "; " + "AuthorID r: " + r.authorID
+            "AuthorID post: " + post.authorID + "; " + "AuthorID r: " + r.authorID
         );
 
         if (String(post.authorID) === r.authorID) {
           console.log("AuthorID: OK...");
           console.log(
-            "Text post: " + post.content + "; " + "Text r: " + r.text
+              "Text post: " + post.content + "; " + "Text r: " + r.text
           );
 
           if (post.content === r.text) {
             console.log("Text: OK...");
             console.log(
-              "Title post: " + post.title + "; " + "Title r: " + r.title
+                "Title post: " + post.title + "; " + "Title r: " + r.title
             );
 
             if (post.title === r.title) {
@@ -333,7 +326,7 @@ api.post["/api/delPost"] = r => {
 api.post["/api/addAdmin"] = r => {
   if(getByToken(r.token)) {
     let user = getByToken(r.token);
-    
+
     if(user.admin) {
       if(api.db.users[r.user]) {
         api.db.users[r.user].admin = true;
@@ -345,7 +338,7 @@ api.post["/api/addAdmin"] = r => {
 api.post["/api/rmAdmin"] = r => {
   if(getByToken(r.token)) {
     let user = getByToken(r.token);
-    
+
     if(user.admin) {
       if(api.db.users[r.user]) {
         api.db.users[r.user].admin = false;
