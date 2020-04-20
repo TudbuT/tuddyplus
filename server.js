@@ -95,11 +95,11 @@ const rPost = post => {
 
 const getPost = () => {
   let post;
-  return (post = rPost(
+  return ((post = rPost(
     api.db.posts[Math.floor(Math.random() * api.db.posts.length)]
-  ))
+  )).title !== null
     ? post
-    : getPost();
+    : getPost());
 };
 
 const redirect = url => {
