@@ -281,40 +281,42 @@ api.post["/api/read"] = r => {
 api.post["/api/delPost"] = r => {
   if (getByToken(r.token)) {
     let user = getByToken(r.token);
-    console.log("Deleting post...");
-    for (let post of api.db.posts) {
-      console.log(
-          "Author post: " + post.author + "; " + "Author r: " + r.author
-      );
-
-      if (post.author === r.author) {
-        console.log("Author: OK...");
+    if (user.admin) {
+      console.log("Deleting post...");
+      for (let post of api.db.posts) {
         console.log(
-            "AuthorID post: " + post.authorID + "; " + "AuthorID r: " + r.authorID
+            "Author post: " + post.author + "; " + "Author r: " + r.author
         );
 
-        if (String(post.authorID) === r.authorID) {
-          console.log("AuthorID: OK...");
+        if (post.author === r.author) {
+          console.log("Author: OK...");
           console.log(
-              "Text post: " + post.content + "; " + "Text r: " + r.text
+              "AuthorID post: " + post.authorID + "; " + "AuthorID r: " + r.authorID
           );
 
-          if (post.content === r.text) {
-            console.log("Text: OK...");
+          if (String(post.authorID) === r.authorID) {
+            console.log("AuthorID: OK...");
             console.log(
-                "Title post: " + post.title + "; " + "Title r: " + r.title
+                "Text post: " + post.content + "; " + "Text r: " + r.text
             );
 
-            if (post.title === r.title) {
-              console.log("Title: OK...");
+            if (post.content === r.text) {
+              console.log("Text: OK...");
+              console.log(
+                  "Title post: " + post.title + "; " + "Title r: " + r.title
+              );
 
-              if (post.title !== "[POST DELETED by `" + user.username + "`]") {
-                post.title = "[POST DELETED by `" + user.username + "`]";
-                post.content = "[POST DELETED] Deleted by moderator";
-              } else {
-                post.title = null;
+              if (post.title === r.title) {
+                console.log("Title: OK...");
+
+                if (post.title !== "[POST DELETED by `" + user.username + "`]") {
+                  post.title = "[POST DELETED by `" + user.username + "`]";
+                  post.content = "[POST DELETED] Deleted by moderator";
+                } else {
+                  post.title = null;
+                }
+                console.log("Post deleted!");
               }
-              console.log("Post deleted!");
             }
           }
         }
