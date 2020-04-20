@@ -72,9 +72,15 @@ const rPost = post => {
       " (" +
       this.authorID +
       ")</h4><h5>" +
-      this.title +
+      String(this.title)
+        .split("&")
+        .join("&amp;")
+        .split("<")
+        .join("&lt;")
+        .split("\n")
+        .join("<br/>") +
       "</h5><br/>" +
-      this.content
+      String(this.content)
         .split("&")
         .join("&amp;")
         .split("<")
