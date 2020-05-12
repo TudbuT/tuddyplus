@@ -23,11 +23,11 @@ It should <...>
 
 # SYSTEM
 OS:
-    <osName e.g. Ubuntu> <osVersion e.g. 18.04.01>
+    \<osName e.g. Ubuntu> \<osVersion e.g. 18.04.01>
 ARCH:
-    <sysArch e.g. x64>
+    \<sysArch e.g. x64>
 TYPE:
-    <device e.g. Samsung Galaxy S9>
+    \<device e.g. Samsung Galaxy S9>
 
 
 # ADDITIONAL
