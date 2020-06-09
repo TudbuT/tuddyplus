@@ -3,6 +3,7 @@ require("hashcode.js");
 
 if (!api.db.users) api.db.users = { count: 0 };
 if (!api.db.posts) api.db.posts = [];
+if (!api.db.nextPostID) api.db.nextPostID = 0;
 
 const genPassword = string => {
   let result = string;
@@ -49,18 +50,29 @@ const getByToken = token => {
 
 const genPost = user => {
   let post = {
+    id: api.db.nextPostID,
     author: user.username,
     authorID: user.id,
     content: null,
     title: null
   };
+  api.db.nextPostID++;
   return rPost(post);
+};
+
+const getPostByID = id => {
+  for (let post of api.db.posts) {
+    if(post.id == id) {
+      return post;
+    }
+  }
+  return null;
 };
 
 const rPost = post => {
   post.toHTML = function() {
     return (
-        "<post><h4>" +
+        "<a onclick=\"window.location.href = '/user/post?token=' + g('token').innerHTML + '&postID='" + this.id + "\">Show</a><br/><post><h4>" +
         this.author +
         " (" +
         this.authorID +
@@ -170,6 +182,8 @@ api.get["/user"] = r => {
   }
 };
 
+api.get["/user/post"] = r =>
+
 api.get["/change/password"] = r => {
   if (getByToken(r.token)) {
     let user = getByToken(r.token);
@@ -242,6 +256,14 @@ api.post["/api/getContent"] = r => {
       gotten[gotten.length] = post;
     }
     return msgs + posts;
+  }
+};
+
+api.post["/api/getThread"] = r => {
+  if (getByToken(r.token)) {
+    let user = getByToken(r.token);
+    
+    let post = getPostByID(r.id);
   }
 };
 
