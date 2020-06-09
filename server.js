@@ -182,7 +182,11 @@ api.get["/user"] = r => {
   }
 };
 
-api.get["/user/post"] = r =>
+api.get["/user/post"] = r => {
+  if(getByToken(r.token)) {
+    
+  }
+};
 
 api.get["/change/password"] = r => {
   if (getByToken(r.token)) {
